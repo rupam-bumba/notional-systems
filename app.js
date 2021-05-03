@@ -1,6 +1,11 @@
 //express
 const express = require("express");
 const app = express();
+
+// express json Parser
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 //path
 const path = require("path");
 
@@ -9,6 +14,8 @@ require("dotenv").config({ path: ".env" });
 
 // console.log(process.env);
 console.log("The value of PORT is by env:", process.env.PORT);
+
+
 
 //database
 mongoose = require("mongoose");

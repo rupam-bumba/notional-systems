@@ -21,7 +21,14 @@ const users = mongoose.Schema({
     required: true,
   },
 
-  profile_image: {},
+  profile_image: [
+    {
+      file_location : {
+        type: String,
+        required: true,
+      },
+    }
+  ],
 
   created_at: {
     type: Date,
@@ -30,3 +37,5 @@ const users = mongoose.Schema({
 });
 
 module.exports = mongoose.model("users", users);
+
+
