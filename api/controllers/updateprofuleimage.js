@@ -1,6 +1,7 @@
 const userDB = require("../models/user");
 var multer = require("multer");
 var path = require("path");
+const fs = require("fs");
 
 // storage eng
 var storage = multer.diskStorage({
@@ -38,16 +39,16 @@ var upload = multer({
   storage: storage,
   limits: { fileSize: 2000000 },
   fileFilter: fileFilter,
-}).single("profileimage");
+}).single("updateprofileimage");
 
-exports.post_insertuser = (req, res, next) => {
+exports.put_updateprofuleimage = (req, res, next) => {
   upload(req, res, (err) => {
     console.log(req.body);
     console.log(JSON.stringify(req.file));
     console.log(JSON.stringify(req.body));
 
     if (err instanceof multer.MulterError) {
-      res.status(200).json({
+      res.status(400).json({
         err,
       });
     } else if (req.file === undefined) {
@@ -56,19 +57,45 @@ exports.post_insertuser = (req, res, next) => {
       return next(err);
     } else if (err) {
       console.log(err);
-      res.status(200).json({
+      res.status(400).json({
         err,
       });
     } else {
+      userDB
+        .find({ _id: req.body._id })
+        .then((result) => {
+          console.log(result);
+          const filename = result[0].profile_image[0].file_location;
+
+          try {
+            fs.unlinkSync("././public/" + filename);
+
+            userDB
+              .updateOne({ _id: req.body._id } ,   {
+                $set: { "profile_image.0.file_location"  : req.file.filename } 
+               })
+              .then((resp) => {
+                res.status(400).json({
+                  resp
+                });
+              })
+              .catch((eerr) => {
+                console.log(eerr);
+                res.status(400).json({
+                  eerr
+                });
+              });
+          } catch (err) {
+            console.error(err);
+          }
 
       
-
-
-
-
-      res.status(200).json({
-        msg: "post_insertuser",
-      });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            error,
+          });
+        });
     }
   });
 };

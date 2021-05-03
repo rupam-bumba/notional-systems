@@ -14,4 +14,9 @@ router.put("/updateuser", updateuser.put_updateuser);
 const fetchuser = require("../controllers/fetchuser");
 router.get("/fetchuser", fetchuser.get_fetchuser);
 
+// GET updateuser
+const updateprofuleimage = require("../controllers/updateprofuleimage");
+router.put("/updateprofuleimage", updateprofuleimage.put_updateprofuleimage);
+
+
 module.exports = router;
