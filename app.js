@@ -15,8 +15,6 @@ require("dotenv").config({ path: ".env" });
 // console.log(process.env);
 console.log("The value of PORT is by env:", process.env.PORT);
 
-
-
 //database
 mongoose = require("mongoose");
 mongoose.pluralize(null);
