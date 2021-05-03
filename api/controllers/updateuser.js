@@ -4,7 +4,7 @@ const userDB = require("../models/user");
 exports.put_updateuser = (req,res,next) =>{
 
     userDB.findOneAndUpdate(
-        { _id: _id },
+        { _id: req.body._id },
         {
           $set: {
             name: req.body.name,
@@ -17,7 +17,7 @@ exports.put_updateuser = (req,res,next) =>{
       )
       .then((result) => {
         res.status(200).json({
-          result,
+         massage : "successfully update"
         });
       })
       .catch((error) => {
